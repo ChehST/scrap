@@ -29,13 +29,13 @@ def get_cats(html):
 # return total ads in category
 def total_ads(html):
     soup = BSoup(html, 'lxml')
-    t_ads = soup.find('span', class_='page-title-count-oYIga').text
+    t_ads = soup.find('span', class_='page-title-count-wQ7pG').text
     return int(t_ads.replace('\xa0',''))
 
 def get_total_pages(html):
     soup = BSoup(html, 'lxml')
-    pages = soup.find('div', class_='pagination-pages').find_all('a',
-                                                                 class_='pagination-page')[-1].get('href')
+    pages = soup.find('div', class_='pagination-root-Ntd_O').find_all('span',
+                                                                 class_='pagination-item-JJq_j')[-1].get('href')
     # return result in string format
     total_pages = pages.split('=')[1].split('&')[0]
 
@@ -61,21 +61,21 @@ def get_page_data(html):
     #
     #   type(ads) -> ResultSet
     #   type(ads[1]) -> tag
-    ads = soup.find('div', class_='items-items-kAJAg', attrs={"data-marker": "catalog-serp"}).find_all('div', class_='iva-item-content-UnQQ4')
+    ads = soup.find('div', class_='items-items-kAJAg', attrs={"data-marker": "catalog-serp"}).find_all('div', class_='iva-item-root-_lk9K')
     for ad in ads:
         # title,url, postday,
         try:
-            title = ad.find('div', class_='iva-item-titleStep-_CxvN').find('h3').text
+            title = ad.find('div', class_='iva-item-titleStep-pdebR').find('h3').text
         except:
             title = 'Null'
 
         try:
-            url ='https://wwww.avito.ru' + ad.find('div', class_='iva-item-titleStep-_CxvN').find('a').get('href')
+            url ='https://wwww.avito.ru' + ad.find('div', class_='iva-item-titleStep-pdebR').find('a').get('href')
         except:
             url = 'Null'
 
         try:
-            price = ad.find('div', class_='iva-item-priceStep-QN8Kl').find('span', class_='price-text-E1Y7h').text
+            price = ad.find('div', class_='iva-item-priceStep-uq2CQ').find('span', class_='price-text-_YGDY').text
         except:
             price = 'Не указана'
 
