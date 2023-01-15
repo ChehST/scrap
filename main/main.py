@@ -35,7 +35,7 @@ def total_ads(html):
 def get_total_pages(html):
     soup = BSoup(html, 'lxml')
     pages = soup.find('div', class_='pagination-pages').find_all('a',
-                                                                 class_='pagination-page')[-1].get('href')
+        class_='pagination-page')[-1].get('href')
     # return result in string format
     total_pages = pages.split('=')[1].split('&')[0]
 
@@ -61,7 +61,8 @@ def get_page_data(html):
     #
     #   type(ads) -> ResultSet
     #   type(ads[1]) -> tag
-    ads = soup.find('div', class_='items-items-kAJAg', attrs={"data-marker": "catalog-serp"}).find_all('div', class_='iva-item-root-_lk9K')
+    ads = soup.find('div', class_='items-items-kAJAg',
+        attrs={"data-marker": "catalog-serp"}).find_all('div', class_='iva-item-root-_lk9K')
     for ad in ads:
         # title,url, postday,
         try:
