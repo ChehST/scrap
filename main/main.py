@@ -71,12 +71,14 @@ def get_page_data(html):
             title = 'Null'
 
         try:
-            url ='https://wwww.avito.ru' + ad.find('div', class_='iva-item-titleStep-pdebR').find('a').get('href')
+            url ='https://wwww.avito.ru' + ad.find('div', 
+                class_='iva-item-titleStep-pdebR').find('a').get('href')
         except:
             url = 'Null'
 
         try:
-            price = ad.find('div', class_='iva-item-priceStep-uq2CQ').find('span', class_='price-text-_YGDY').text
+            price = ad.find('div',
+                class_='iva-item-priceStep-uq2CQ').find('span', class_='price-text-_YGDY').text
         except:
             price = 'Не указана'
 
@@ -123,7 +125,6 @@ def main():
             html_qset = get_html(url_gen)
             get_page_data(html_qset)
             time.sleep(1)
-
 
 
 if __name__ == '__main__':
