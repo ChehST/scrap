@@ -1,3 +1,7 @@
+# Добавить лицензию
+# Авторство копирайт и дт
+""" Документация """
+
 import time
 import csv
 
@@ -17,35 +21,43 @@ from bs4 import BeautifulSoup as BSoup
 
 TARGET_URL = 'https://www.avito.ru/bikin/telefony'
 
-# return url's html .text()
+
 def get_html(url):
-    r = requests.get(url)
-    return r.text
+    """ Возвращает объект Response из библиотеки requests и представляет как текст """
+    requested_html = requests.get(url)
+    return requested_html.text
 
-# get catigories list
-def get_cats(html):
-    soup = BSoup(html, 'lxml')
-    cats = soup.find_all('options')
-    return cats
-
-# return total ads in category
 def total_ads(html):
+    """Функция принимает результат объект requests.models.Response()
+    представленный как текст, после чего инициализируется переменная под
+    объект BeautyfulSoup с соответствующим параметром 'lxml' и создаётся 
+    ещё одна переменная t_ads которая взвращает целочисленный ответ 
+    с общимколичеством объявлений
+    """
     soup = BSoup(html, 'lxml')
     t_ads = soup.find('span', class_='page-title-count-wQ7pG').text
     return int(t_ads.replace('\xa0',''))
 
 def get_total_pages(html):
-    soup = BSoup(html, 'lxml')
-    pages = soup.find('div', class_='pagination-pages').find_all('a',
-        class_='pagination-page')[-1].get('href')
-    # return result in string format
-    total_pages = pages.split('=')[1].split('&')[0]
+    """WARN!!! повторяется логика !!!WARN 
+    возвращает количество страниц для последующего использования в цикле
+    чтоб собрать объявления со всех страниц с объявлениями в категории.
 
+    Спустя год я понял насколько этот код плох, строчные комменты для конкретики
+    """
+    soup = BSoup(html, 'lxml')
+    pages = soup.find('div', class_='pagination-pages').find_all('a', \
+        class_='pagination-page')[-1].get('href')
+        # Предыдущий комент говорит о том, что возвращается string
+    total_pages = pages.split('=')[1].split('&')[0]
+    # Если string, то логично, но всё равно переделаю
     return int(total_pages)
 
 def write_csv(data):
-    with open('avito_bikin_be.csv', 'a') as f:
-        writer = csv.writer(f)
+    """ Запись собранных файлов в файл """
+    with open('avito_bikin_be.csv', \
+        encoding="utf-8", mode="a") as parsed_data_file:
+        writer = csv.writer(parsed_data_file)
         writer.writerow( (data['title'],
                           data['url'],
                           data['price'],
@@ -53,6 +65,7 @@ def write_csv(data):
                           ) )
 
 def get_page_data(html):
+    """ Получение информации для построчной записи файл данных из объявления """
     soup = BSoup(html, 'lxml')
 
     #  ads - список объявлений
@@ -70,7 +83,7 @@ def get_page_data(html):
         try:
             title = ad.find('div', class_='iva-item-titleStep-pdebR').find('h3').text
         except:
-            title = 'Null'
+            title = 'Без заголовка'
 
         try:
             url ='https://wwww.avito.ru' + ad.find('div' ,
@@ -101,6 +114,7 @@ def get_page_data(html):
 
 
 def main():
+    """ Собранный скрипт для сбора информации """
 
 
     # url = 'https://www.avito.ru/bikin/telefony'
