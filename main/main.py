@@ -1,7 +1,10 @@
-import requests
-from bs4 import BeautifulSoup as BSoup
 import time
 import csv
+
+import requests
+
+from bs4 import BeautifulSoup as BSoup
+
 
 
 #  1) How many total ads n region?
@@ -12,8 +15,7 @@ import csv
 #  6) додумать логику при t_ads < 50, когда есть extra
 
 
-target_url = 'https://www.avito.ru/bikin/telefony'
-
+TARGET_URL = 'https://www.avito.ru/bikin/telefony'
 
 # return url's html .text()
 def get_html(url):
@@ -71,7 +73,7 @@ def get_page_data(html):
             title = 'Null'
 
         try:
-            url ='https://wwww.avito.ru' + ad.find('div', 
+            url ='https://wwww.avito.ru' + ad.find('div' ,
                 class_='iva-item-titleStep-pdebR').find('a').get('href')
         except:
             url = 'Null'
@@ -85,7 +87,7 @@ def get_page_data(html):
         try:
             category = ad.find('div', attrs={"data-marker": "item-line"}).find('span').text
         except:
-            category = 'не определена'  
+            category = 'не определена'
 
         data = {'title': title,
                 'url': url,
@@ -129,4 +131,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
