@@ -8,7 +8,7 @@
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
 ## Установка и инструкции к эксплуатации:
 
-Клонируем репозитрий и следуеминструкциям
+Клонируем репозитрий и следуем инструкциям
 
 ```console
 $ python scrap.py и тд и тп
