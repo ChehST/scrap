@@ -119,10 +119,12 @@ def main():
 
     # url = 'https://www.avito.ru/bikin/telefony'
     # base_url = 'https://www.avito.ru/bikin/telefony?'
-    url = 'https://www.avito.ru/bikin/bytovaya_elektronika'
-    base_url = 'https://www.avito.ru/bikin/bytovaya_elektronika?'
+    #url = 'https://www.avito.ru/bikin/bytovaya_elektronika'
+    #base_url = 'https://www.avito.ru/bikin/bytovaya_elektronika?'
     # url = 'https://www.avito.ru/moskva_i_mo/bytovaya_elektronika'
     # base_url = 'https://www.avito.ru/moskva_i_mo/bytovaya_elektronika?'
+    url ='https://www.avito.ru/bikin/kvartiry/prodam/vtorichka-ASgBAgICAkSSA8YQ5geMUg'
+    base_url= 'https://www.avito.ru/bikin/kvartiry/prodam/vtorichka-ASgBAgICAkSSA8YQ5geMUg?'
 
     page_part = 'p='
 
