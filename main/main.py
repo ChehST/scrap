@@ -10,15 +10,6 @@ import requests
 from bs4 import BeautifulSoup as BSoup
 
 
-
-#  1) How many total ads n region?
-#  2) How  many pages
-#  3) Do a list with pages urls
-#  4) collect data
-#  5) get total pages, работает корректно если t_ads > 50!!!
-#  6) додумать логику при t_ads < 50, когда есть extra
-
-
 TARGET_URL = 'https://www.avito.ru/bikin/telefony'
 
 
@@ -56,7 +47,7 @@ def get_total_pages(html):
 def write_csv(data):
     """ Запись собранных файлов в файл """
     with open('avito_bikin_be.csv', \
-        encoding="utf-8", mode="a") as parsed_data_file:
+            encoding="utf-8", mode="a") as parsed_data_file:
         writer = csv.writer(parsed_data_file)
         writer.writerow( (data['title'],
                           data['url'],
@@ -65,17 +56,18 @@ def write_csv(data):
                           ) )
 
 def get_page_data(html):
-    """ Получение информации для построчной записи файл данных из объявления """
+    """ Получение информации для построчной записи файл данных из объявления 
+    ads - список объявлений
+    Пошаговая логика:
+    1) ищем родной блок каталог (тот что не является extra, с атрибутом "data-marker")
+    2) ищем все ad
+    3) записываем все ad в ads
+    type(ads) -> ResultSet
+    type(ads[1]) -> tag
+    """
     soup = BSoup(html, 'lxml')
 
-    #  ads - список объявлений
-    #  Пошаговая логика:
-    #  1) ищем родной блок каталог (тот что не является extra, с атрибутом "data-marker")
-    #  2) ищем все ad
-    #  3) записываем все ad в ads
-    #
-    #   type(ads) -> ResultSet
-    #   type(ads[1]) -> tag
+    
     ads = soup.find('div', class_='items-items-kAJAg',
         attrs={"data-marker": "catalog-serp"}).find_all('div', class_='iva-item-root-_lk9K')
     for ad in ads:
