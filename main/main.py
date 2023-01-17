@@ -117,32 +117,27 @@ def main():
     """ Собранный скрипт для сбора информации """
 
 
-    # url = 'https://www.avito.ru/bikin/telefony'
-    # base_url = 'https://www.avito.ru/bikin/telefony?'
     #url = 'https://www.avito.ru/bikin/bytovaya_elektronika'
-    #base_url = 'https://www.avito.ru/bikin/bytovaya_elektronika?'
-    # url = 'https://www.avito.ru/moskva_i_mo/bytovaya_elektronika'
-    # base_url = 'https://www.avito.ru/moskva_i_mo/bytovaya_elektronika?'
+    #url = 'https://www.avito.ru/moskva_i_mo/bytovaya_elektronika'
     url ='https://www.avito.ru/bikin/kvartiry/prodam/vtorichka-ASgBAgICAkSSA8YQ5geMUg'
-    base_url= 'https://www.avito.ru/bikin/kvartiry/prodam/vtorichka-ASgBAgICAkSSA8YQ5geMUg?'
 
-    page_part = 'p='
+    page_part = '?p='
 
 
     ads_in_url = total_ads(get_html(url))
 
     if ads_in_url <= 50:
         print(str(ads_in_url) + ' объявления, выгружаю...')
-        # debug code
+        get_page_data(get_html(url))
     else:
         print(str(ads_in_url) + ' предложений. Расчет страниц, прогружаю объявления...')
-        # debug code
         total_pages = get_total_pages(get_html(url))
         for num_page in range(1, total_pages + 1):
-            url_gen = base_url + page_part + str(num_page)
+            url_gen = url + page_part + str(num_page)
             html_qset = get_html(url_gen)
             get_page_data(html_qset)
             time.sleep(1)
+    print("Вывод готов в текущей дериктории")
 
 
 if __name__ == '__main__':
