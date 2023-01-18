@@ -10,8 +10,8 @@ import requests
 from bs4 import BeautifulSoup as BSoup
 
 
-TARGET_URL = 'https://www.avito.ru/bikin/telefony'
-#TARGET_URL = 'https://www.avito.ru/bikin/kvartiry/prodam/vtorichka-ASgBAgICAkSSA8YQ5geMUg'
+#TARGET_URL = 'https://www.avito.ru/bikin/telefony'
+TARGET_URL = 'https://www.avito.ru/bikin/kvartiry/prodam/vtorichka-ASgBAgICAkSSA8YQ5geMUg'
 #TARGET_URL = 'https://www.avito.ru/moskva_i_mo/bytovaya_elektronika'
 
 
@@ -106,12 +106,10 @@ def get_page_data(html):
         write_csv(data)
 
 
-
-
-def main():
-    """ Собранный скрипт для сбора информации """
-
+def scrap_parse(url):
+    """Собрал функцию  для парсинга"""
     url = TARGET_URL
+
 
     page_part = '?p='
 
@@ -130,6 +128,14 @@ def main():
             get_page_data(html_qset)
             time.sleep(1)
     print("Вывод готов в текущей дериктории")
+
+
+
+
+def main():
+    """ Собранный скрипт для сбора информации """
+
+    scrap_parse(url=TARGET_URL)
 
 
 if __name__ == '__main__':
