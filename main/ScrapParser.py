@@ -1,5 +1,5 @@
 # Добавить лицензию
-# Авторство копирайт и дт
+# AUTHOR: github.com/ChehST
 """ Документация """
 
 import time
@@ -108,7 +108,6 @@ def get_page_data(html):
 
 def scrap_parse(url):
     """Собрал функцию  для парсинга"""
-    url = TARGET_URL
 
 
     page_part = '?p='
@@ -135,7 +134,7 @@ def scrap_parse(url):
 def main():
     """ Собранный скрипт для сбора информации """
 
-    scrap_parse(url=TARGET_URL)
+    scrap_parse(url)
 
 
 if __name__ == '__main__':
