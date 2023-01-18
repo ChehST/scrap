@@ -11,6 +11,9 @@ from bs4 import BeautifulSoup as BSoup
 
 
 TARGET_URL = 'https://www.avito.ru/bikin/telefony'
+#TARGET_URL = 'https://www.avito.ru/bikin/kvartiry/prodam/vtorichka-ASgBAgICAkSSA8YQ5geMUg'
+#TARGET_URL = 'https://www.avito.ru/moskva_i_mo/bytovaya_elektronika'
+
 
 
 def get_html(url):
@@ -108,10 +111,7 @@ def get_page_data(html):
 def main():
     """ Собранный скрипт для сбора информации """
 
-
-    #url = 'https://www.avito.ru/bikin/bytovaya_elektronika'
-    #url = 'https://www.avito.ru/moskva_i_mo/bytovaya_elektronika'
-    url ='https://www.avito.ru/bikin/kvartiry/prodam/vtorichka-ASgBAgICAkSSA8YQ5geMUg'
+    url = TARGET_URL
 
     page_part = '?p='
 
