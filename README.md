@@ -35,7 +35,7 @@ $ python main/scrap_cli.py https://www.avito.ru/habarovsk/bytovaya_elektronika
 ```
 
 На выходе получаем файл *parsed_data.csv*
-![Data csv file](https://https://github.com/ChehST/scrap/blob/develop/docs/images/data_csv.png)
+![Data csv file](https://github.com/ChehST/scrap/tree/develop/docs/images/data_csv.png)
 
 
 Пока эта и последующие записи для шаблона и заполнится позже
