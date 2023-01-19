@@ -8,10 +8,34 @@
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
 ## Установка и инструкции к эксплуатации:
 
-Клонируем репозитрий и следуем инструкциям
-
+1) Клонируем репозитрий на локальный компьютер
 ```console
-$ python scrap.py и тд и тп
+$ git clone "https://github.com/ChehST/scrap.git"
 ```
+
+2) Устанавливаем настраиваем виртуальное окружение, тянем зависимости
+```console
+$ cd scrap
+$ python -m venv venv
+$ source venv/bin/adctivate    # Активируем venv
+$ pip install -r reguirements.txt
+$ deactivate     # Деактивируем venv
+```
+
+3) Приступаем к эксплуатации:
+   Не забываем активировать venv передзапуском,
+```console
+$ source venv/bin/adctivate    # Активируем venv
+$ python main/scrap_cli.py [URL]
+```
+На место URL вставляем полную ссылку с интересующей вас категорией
+**пример:**
+```console
+$ python main/scrap_cli.py https://www.avito.ru/habarovsk/bytovaya_elektronika
+```
+
+На выходе получаем файл *parsed_data.csv*
+![Data csv file](https://github.com/ChehST/scrap/raw/develop/docs/images/image.png)
+
 
 Пока эта и последующие записи для шаблона и заполнится позже

@@ -10,12 +10,6 @@ import requests
 from bs4 import BeautifulSoup as BSoup
 
 
-#TARGET_URL = 'https://www.avito.ru/bikin/telefony'
-TARGET_URL = 'https://www.avito.ru/bikin/kvartiry/prodam/vtorichka-ASgBAgICAkSSA8YQ5geMUg'
-#TARGET_URL = 'https://www.avito.ru/moskva_i_mo/bytovaya_elektronika'
-
-
-
 def get_html(url):
     """ Возвращает объект Response из библиотеки requests и представляет как текст """
     requested_html = requests.get(url)
@@ -49,7 +43,7 @@ def get_total_pages(html):
 
 def write_csv(data):
     """ Запись собранных файлов в файл """
-    with open('avito_bikin_be.csv', \
+    with open('parsed_data.csv', \
             encoding="utf-8", mode="a") as parsed_data_file:
         writer = csv.writer(parsed_data_file)
         writer.writerow( (data['title'],
@@ -109,9 +103,7 @@ def get_page_data(html):
 def scrap_parse(url):
     """Собрал функцию  для парсинга"""
 
-
-    page_part = '?p='
-
+    PAGE_PART = '?p='
 
     ads_in_url = total_ads(get_html(url))
 
@@ -122,7 +114,7 @@ def scrap_parse(url):
         print(str(ads_in_url) + ' предложений. Расчет страниц, прогружаю объявления...')
         total_pages = get_total_pages(get_html(url))
         for num_page in range(1, total_pages + 1):
-            url_gen = url + page_part + str(num_page)
+            url_gen = url + PAGE_PART + str(num_page)
             html_qset = get_html(url_gen)
             get_page_data(html_qset)
             time.sleep(1)
@@ -134,7 +126,7 @@ def scrap_parse(url):
 def main():
     """ Собранный скрипт для сбора информации """
 
-    scrap_parse(url)
+    scrap_parse()
 
 
 if __name__ == '__main__':
