@@ -1,19 +1,35 @@
-# Добавить лицензию
-# AUTHOR: github.com/ChehST
-""" Документация """
+"""
+:copyright: (c) 2022 by Sergey Cheh.
+:license: Apache2, see LICENSE for more details.
+"""
 
 import time
 import csv
 
 import requests
 
+from random import randint
 from bs4 import BeautifulSoup as BSoup
 
+HEADERS = [
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2",
+    "Opera/9.80 (Windows NT 6.2; WOW64) Presto/2.12.388 Version/12.17"
+]
 
-def get_html(url):
+
+def get_html(url, headers):
     """ Возвращает объект Response из библиотеки requests и представляет как текст """
-    requested_html = requests.get(url)
-    return requested_html.text
+    #requested_html = requests.get(url, headers=HEADERS["user-agent"][randint(0,4)])
+
+    headers = {"user-agent":HEADERS[randint(0,2)]}
+    try:
+        requested_html = requests.get(url, headers=headers)
+        print(requested_html.status_code)
+        return requested_html.text
+    except:
+        print(requested_html.status_code)
+    
 
 def total_ads(html):
     """Функция принимает результат объект requests.models.Response()
@@ -22,9 +38,13 @@ def total_ads(html):
     ещё одна переменная t_ads которая взвращает целочисленный ответ
     с общимколичеством объявлений
     """
-    soup = BSoup(html, 'lxml')
-    t_ads = soup.find('span', class_='page-title-count-wQ7pG').text
-    return int(t_ads.replace('\xa0',''))
+    try:
+        soup = BSoup(html, 'lxml')
+        t_ads = soup.find('span', class_='page-title-count-wQ7pG').text
+        return int(t_ads.replace('\xa0',''))
+    except:
+        print("Поздравляю, 429 ошибка")
+    
 
 def get_total_pages(html):
     """WARN!!! повторяется логика !!!WARN
@@ -100,22 +120,23 @@ def get_page_data(html):
         write_csv(data)
 
 
-def scrap_parse(url):
+def scrap_parse(url='',headers=HEADERS):
     """Собрал функцию  для парсинга"""
 
     PAGE_PART = '?p='
 
-    ads_in_url = total_ads(get_html(url))
+    ads_in_url = total_ads(get_html(url, headers))
 
     if ads_in_url <= 50:
         print(str(ads_in_url) + ' объявления, выгружаю...')
-        get_page_data(get_html(url))
+        get_page_data(get_html(url, headers))
     else:
         print(str(ads_in_url) + ' предложений. Расчет страниц, прогружаю объявления...')
-        total_pages = get_total_pages(get_html(url))
+        total_pages = get_total_pages(get_html(url, headers))
         for num_page in range(1, total_pages + 1):
             url_gen = url + PAGE_PART + str(num_page)
-            html_qset = get_html(url_gen)
+
+            html_qset = get_html(url_gen, headers)
             get_page_data(html_qset)
             time.sleep(1)
     print("Вывод готов в текущей дериктории")
@@ -124,10 +145,7 @@ def scrap_parse(url):
 
 
 def main():
-    """ Собранный скрипт для сбора информации """
-
-    scrap_parse()
-
+    pass
 
 if __name__ == '__main__':
     main()
