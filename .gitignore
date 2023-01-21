@@ -2,3 +2,4 @@ venv
 *.pyc
 *.csv
 **/__pycache__
+*.~lock.parsed_data.csv#

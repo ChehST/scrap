@@ -34,8 +34,5 @@ $ python main/scrap_cli.py [URL]
 $ python main/scrap_cli.py https://www.avito.ru/habarovsk/bytovaya_elektronika
 ```
 
-На выходе получаем файл *parsed_data.csv*
+На выходе получаем файл *parsed_data.csv* в корневой папке scrap/
 ![Data csv file](https://github.com/ChehST/scrap/blob/develop/docs/images/data_csv.png)
-
-
-Пока эта и последующие записи для шаблона и заполнится позже
