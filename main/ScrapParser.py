@@ -17,14 +17,31 @@ HEADERS = [
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2",
     "Opera/9.80 (Windows NT 6.2; WOW64) Presto/2.12.388 Version/12.17"
-]
+]  # Только desktop заголовки, т.к. мобильный сайт сдругими указателями
+
+PROXY = {'http':['193.202.86.34:8085',
+            '193.202.8.87:8085',
+            '193.151.191.26:8085',
+            '193.200.12.121:8085',
+            '193.151.190.69:8085',
+            '193.151.190.243:8085'],
+        'https':['193.202.86.34:8085',
+            '193.202.8.87:8085',
+             '193.151.191.26:8085',
+            '193.200.12.121:8085',
+            '193.151.190.69:8085',
+            '193.151.190.243:8085']}
 
 
-def get_html(url, headers):
+def get_html(url, headers, proxies):
     """ Возвращает объект Response из библиотеки requests и представляет как текст """
     headers = {"user-agent":HEADERS[randint(0,2)]}
+    proxies = {"http":PROXY["http"][randint(0,5)],
+                "https":PROXY["https"][randint(0,5)]
+            }
     try:
-        requested_html = requests.get(url, headers=headers)
+        requested_html = requests.get(url, headers=headers)  # Каждый запрос с новым header 
+        print(proxies)
         return requested_html.text
     except:
         print(requested_html.status_code)
@@ -50,7 +67,7 @@ def parse_dict(html):
         return parsed_vars
     except:
         message = "Поздравляю, 429 ошибка"
-        return  message
+        return message
     
 
 
@@ -115,11 +132,11 @@ def get_page_data(html):
         write_csv(data)
 
 
-def scrap_parse(url='',headers=HEADERS):
+def scrap_parse(url='',headers=HEADERS, proxies=PROXY):
     """Собрал функцию  для парсинга"""
 
     PAGE_PART = '?p='
-    html = get_html(url,headers)
+    html = get_html(url,headers,proxies)
     PARSED_DICT = parse_dict(html)
 
     ads_in_url = PARSED_DICT["TOTAL_ADS"]
@@ -134,14 +151,11 @@ def scrap_parse(url='',headers=HEADERS):
             print("Смотрю страницу:",num_page)
             url_gen = url + PAGE_PART + str(num_page)
 
-            html_qset = get_html(url_gen, headers)
+            html_qset = get_html(url_gen, headers,proxies)
             get_page_data(html_qset)
             time.sleep(1)
     print("Вывод готов в текущей дериктории")
 
-
-def main():
-    pass
 
 if __name__ == '__main__':
     main()
