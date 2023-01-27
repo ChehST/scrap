@@ -27,21 +27,21 @@ PROXY = {'http':['193.202.86.34:8085',
             '193.151.190.243:8085'],
         'https':['193.202.86.34:8085',
             '193.202.8.87:8085',
-             '193.151.191.26:8085',
+            '193.151.191.26:8085',
             '193.200.12.121:8085',
             '193.151.190.69:8085',
-            '193.151.190.243:8085']}
+            '193.151.190.243:8085']
+        }  # Тестовые прокси, нужно добавить возможность брать из файла
 
 
 def get_html(url, headers, proxies):
     """ Возвращает объект Response из библиотеки requests и представляет как текст """
     headers = {"user-agent":HEADERS[randint(0,2)]}
     proxies = {"http":PROXY["http"][randint(0,5)],
-                "https":PROXY["https"][randint(0,5)]
+                "https":PROXY["https"][randint(0,5)]  # Https вообще изпользуются?
             }
     try:
         requested_html = requests.get(url, headers=headers)  # Каждый запрос с новым header 
-        print(proxies)
         return requested_html.text
     except:
         print(requested_html.status_code)
