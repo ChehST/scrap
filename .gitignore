@@ -3,5 +3,4 @@ venv
 *.csv
 **/__pycache__
 *.~lock.parsed_data.csv#
-scrap.sublime-project
-scrap.sublime-workspace
+scrap.sublime-*
