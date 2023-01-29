@@ -19,29 +19,16 @@ HEADERS = [
     "Opera/9.80 (Windows NT 6.2; WOW64) Presto/2.12.388 Version/12.17"
 ]  # Только desktop заголовки, т.к. мобильный сайт сдругими указателями
 
-PROXY = {'http':['193.202.86.34:8085',
-            '193.202.8.87:8085',
-            '193.151.191.26:8085',
-            '193.200.12.121:8085',
-            '193.151.190.69:8085',
-            '193.151.190.243:8085'],
-        'https':['193.202.86.34:8085',
-            '193.202.8.87:8085',
-            '193.151.191.26:8085',
-            '193.200.12.121:8085',
-            '193.151.190.69:8085',
-            '193.151.190.243:8085']
-        }  # Тестовые прокси, нужно добавить возможность брать из файла
+PROXY = {}  # Тестовые прокси, нужно добавить возможность брать из файла
 
 
 def get_html(url, headers, proxies):
     """ Возвращает объект Response из библиотеки requests и представляет как текст """
-    headers = {"user-agent":HEADERS[randint(0,2)]}
-    proxies = {"http":PROXY["http"][randint(0,5)],
-                "https":PROXY["https"][randint(0,5)]  # Https вообще изпользуются?
-            }
+    headers = {"user-agent":HEADERS[randint(0,2)]} #int(len(HEADERS))-1) if кол-во ua вариативно
+    # в requests не нашёл селектор как с прокси, поэтому оставлю
     try:
-        requested_html = requests.get(url, headers=headers)  # Каждый запрос с новым header 
+        requested_html = requests.get(url, headers=headers, proxies=proxies)
+        # Каждый запрос с новым header 
         return requested_html.text
     except:
         print(requested_html.status_code)
