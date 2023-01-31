@@ -22,12 +22,12 @@ HEADERS = [
 PROXY = {}  # Тестовые прокси, нужно добавить возможность брать из файла
 
 
-def get_html(url, headers, proxies):
+def get_html(url, headers):
     """ Возвращает объект Response из библиотеки requests и представляет как текст """
     headers = {"user-agent":HEADERS[randint(0,2)]} #int(len(HEADERS))-1) if кол-во ua вариативно
     # в requests не нашёл селектор как с прокси, поэтому оставлю
     try:
-        requested_html = requests.get(url, headers=headers, proxies=proxies)
+        requested_html = requests.get(url, headers=headers)
         # Каждый запрос с новым header 
         return requested_html.text
     except:
@@ -119,11 +119,12 @@ def get_page_data(html):
         write_csv(data)
 
 
-def scrap_parse(url='',headers=HEADERS, proxies=PROXY):
+def scrap_parse(*args, **kwargs):
     """Собрал функцию  для парсинга"""
+    print(args,kwargs)
 
     PAGE_PART = '?p='
-    html = get_html(url,headers,proxies)
+    html = get_html(url,headers)
     PARSED_DICT = parse_dict(html)
 
     ads_in_url = PARSED_DICT["TOTAL_ADS"]
@@ -138,7 +139,7 @@ def scrap_parse(url='',headers=HEADERS, proxies=PROXY):
             print("Смотрю страницу:",num_page)
             url_gen = url + PAGE_PART + str(num_page)
 
-            html_qset = get_html(url_gen, headers,proxies)
+            html_qset = get_html(url_gen, headers)
             get_page_data(html_qset)
             time.sleep(1)
     print("Вывод готов в текущей дериктории")
