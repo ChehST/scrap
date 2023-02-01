@@ -6,6 +6,8 @@ import argparse
 from ScrapParser import scrap_parse
 from proxy import dict_proxies
 
+PROXIES = {}
+
 
 parser = argparse.ArgumentParser(description="Управление парсером Scrap")
 parser.add_argument('target_url', type=str, help="Clipboard url with https://")

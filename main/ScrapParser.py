@@ -22,13 +22,15 @@ HEADERS = [
 PROXY = {}  # Тестовые прокси, нужно добавить возможность брать из файла
 
 
-def get_html(url, headers):
+def get_html(url, headers=HEADERS,**kwargs):
     """ Возвращает объект Response из библиотеки requests и представляет как текст """
+    proxies = kwargs['proxies']
+    print(proxies)
     headers = {"user-agent":HEADERS[randint(0,2)]} #int(len(HEADERS))-1) if кол-во ua вариативно
     # в requests не нашёл селектор как с прокси, поэтому оставлю
     try:
-        requested_html = requests.get(url, headers=headers)
-        # Каждый запрос с новым header 
+        requested_html = requests.get(url, headers=headers, proxies=proxies)
+        print(requested_html.request.headers.get("X-Forwarded-For"))  # ловим прокси
         return requested_html.text
     except:
         print(requested_html.status_code)
@@ -119,12 +121,14 @@ def get_page_data(html):
         write_csv(data)
 
 
-def scrap_parse(*args, **kwargs):
+def scrap_parse(url, **kwargs):
     """Собрал функцию  для парсинга"""
-    print(args,kwargs)
+
+    #proxies = kwargs['proxies']
+    #print(proxies)
 
     PAGE_PART = '?p='
-    html = get_html(url,headers)
+    html = get_html(url,**kwargs)
     PARSED_DICT = parse_dict(html)
 
     ads_in_url = PARSED_DICT["TOTAL_ADS"]
@@ -139,7 +143,7 @@ def scrap_parse(*args, **kwargs):
             print("Смотрю страницу:",num_page)
             url_gen = url + PAGE_PART + str(num_page)
 
-            html_qset = get_html(url_gen, headers)
+            html_qset = get_html(url_gen,**kwargs)
             get_page_data(html_qset)
             time.sleep(1)
     print("Вывод готов в текущей дериктории")
