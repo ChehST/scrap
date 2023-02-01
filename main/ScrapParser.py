@@ -17,14 +17,18 @@ HEADERS = [
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2",
     "Opera/9.80 (Windows NT 6.2; WOW64) Presto/2.12.388 Version/12.17"
-]
+]  # Только desktop заголовки, т.к. мобильный сайт сдругими указателями
 
 
-def get_html(url, headers):
+def get_html(url, headers=HEADERS,**kwargs):
     """ Возвращает объект Response из библиотеки requests и представляет как текст """
-    headers = {"user-agent":HEADERS[randint(0,2)]}
+    proxies = kwargs['proxies']
+    headers = {"user-agent":HEADERS[randint(0,2)]} #int(len(HEADERS))-1) if кол-во ua вариативно
+    # в requests не нашёл селектор как с прокси, поэтому оставлю
+
     try:
-        requested_html = requests.get(url, headers=headers)
+        requested_html = requests.get(url, headers=headers, proxies=proxies)
+        print(requested_html.request.headers.get("X-Forwarded-For"))  # ловим прокси
         return requested_html.text
     except:
         print(requested_html.status_code)
@@ -32,7 +36,7 @@ def get_html(url, headers):
     
 
 def parse_dict(html):
-    """Функция принимает результат объект requests.models.Response()
+    """ Функция принимает результат объект requests.models.Response()
     представленный как текст, после чего инициализируется переменная под
     объект BeautyfulSoup с соответствующим параметром 'lxml' и создаётся
     ещё одна переменная t_ads которая взвращает целочисленный ответ
@@ -50,7 +54,7 @@ def parse_dict(html):
         return parsed_vars
     except:
         message = "Поздравляю, 429 ошибка"
-        return  message
+        return message
     
 
 
@@ -115,11 +119,11 @@ def get_page_data(html):
         write_csv(data)
 
 
-def scrap_parse(url='',headers=HEADERS):
+def scrap_parse(url, **kwargs):
     """Собрал функцию  для парсинга"""
 
     PAGE_PART = '?p='
-    html = get_html(url,headers)
+    html = get_html(url,**kwargs)
     PARSED_DICT = parse_dict(html)
 
     ads_in_url = PARSED_DICT["TOTAL_ADS"]
@@ -134,14 +138,11 @@ def scrap_parse(url='',headers=HEADERS):
             print("Смотрю страницу:",num_page)
             url_gen = url + PAGE_PART + str(num_page)
 
-            html_qset = get_html(url_gen, headers)
+            html_qset = get_html(url_gen,**kwargs)
             get_page_data(html_qset)
             time.sleep(1)
     print("Вывод готов в текущей дериктории")
 
-
-def main():
-    pass
 
 if __name__ == '__main__':
     main()

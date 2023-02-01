@@ -3,4 +3,4 @@ venv
 *.csv
 **/__pycache__
 *.~lock.parsed_data.csv#
-*.sublime-project
+
