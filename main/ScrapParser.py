@@ -19,15 +19,13 @@ HEADERS = [
     "Opera/9.80 (Windows NT 6.2; WOW64) Presto/2.12.388 Version/12.17"
 ]  # Только desktop заголовки, т.к. мобильный сайт сдругими указателями
 
-PROXY = {}  # Тестовые прокси, нужно добавить возможность брать из файла
-
 
 def get_html(url, headers=HEADERS,**kwargs):
     """ Возвращает объект Response из библиотеки requests и представляет как текст """
     proxies = kwargs['proxies']
-    print(proxies)
     headers = {"user-agent":HEADERS[randint(0,2)]} #int(len(HEADERS))-1) if кол-во ua вариативно
     # в requests не нашёл селектор как с прокси, поэтому оставлю
+
     try:
         requested_html = requests.get(url, headers=headers, proxies=proxies)
         print(requested_html.request.headers.get("X-Forwarded-For"))  # ловим прокси
@@ -38,7 +36,7 @@ def get_html(url, headers=HEADERS,**kwargs):
     
 
 def parse_dict(html):
-    """Функция принимает результат объект requests.models.Response()
+    """ Функция принимает результат объект requests.models.Response()
     представленный как текст, после чего инициализируется переменная под
     объект BeautyfulSoup с соответствующим параметром 'lxml' и создаётся
     ещё одна переменная t_ads которая взвращает целочисленный ответ
@@ -123,9 +121,6 @@ def get_page_data(html):
 
 def scrap_parse(url, **kwargs):
     """Собрал функцию  для парсинга"""
-
-    #proxies = kwargs['proxies']
-    #print(proxies)
 
     PAGE_PART = '?p='
     html = get_html(url,**kwargs)
