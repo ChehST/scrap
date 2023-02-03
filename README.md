@@ -23,7 +23,7 @@ $ deactivate     # Деактивируем venv
 ```
 
 3) Приступаем к эксплуатации:
-   Не забываем активировать venv передзапуском,
+   Не забываем активировать venv перед запуском,
 ```console
 $ source venv/bin/adctivate    # Активируем venv
 $ python main/scrap_cli.py [URL]
@@ -32,6 +32,11 @@ $ python main/scrap_cli.py [URL]
 **пример:**
 ```console
 $ python main/scrap_cli.py https://www.avito.ru/habarovsk/bytovaya_elektronika
+```
+
+Если есть прокси, нужно их указать как:
+```console
+$ python main/scrap_cli.py https://www.avito.ru/your/request -p path/to/proxy_list.csv
 ```
 
 На выходе получаем файл *parsed_data.csv* в корневой папке scrap/

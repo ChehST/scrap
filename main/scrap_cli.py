@@ -3,7 +3,7 @@
 
 import argparse
 
-from ScrapParser import scrap_parse
+from api import scrap_parse
 from proxy import dict_proxies
 
 PROXIES = {}
